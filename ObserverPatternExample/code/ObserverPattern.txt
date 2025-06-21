@@ -1,0 +1,79 @@
+using System;
+using System.Collections.Generic;
+
+public interface IObserver
+{
+    void Update(string stockSymbol, double price);
+}
+
+public interface IStock
+{
+    void RegisterObserver(IObserver observer);
+    void RemoveObserver(IObserver observer);
+    void NotifyObservers();
+}
+
+public class StockMarket : IStock
+{
+    private List<IObserver> _observers = new List<IObserver>();
+    private string _stockSymbol;
+    private double _stockPrice;
+
+    public void SetStockPrice(string symbol, double price)
+    {
+        _stockSymbol = symbol;
+        _stockPrice = price;
+        NotifyObservers();
+    }
+
+    public void RegisterObserver(IObserver observer)
+    {
+        _observers.Add(observer);
+    }
+
+    public void RemoveObserver(IObserver observer)
+    {
+        _observers.Remove(observer);
+    }
+
+    public void NotifyObservers()
+    {
+        foreach (var observer in _observers)
+        {
+            observer.Update(_stockSymbol, _stockPrice);
+        }
+    }
+}
+
+public class MobileApp : IObserver
+{
+    public void Update(string stockSymbol, double price)
+    {
+        Console.WriteLine($"[MobileApp] {stockSymbol} is now ₹{price}");
+    }
+}
+
+public class WebApp : IObserver
+{
+    public void Update(string stockSymbol, double price)
+    {
+        Console.WriteLine($"[WebApp] {stockSymbol} is now ₹{price}");
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        StockMarket stockMarket = new StockMarket();
+
+        IObserver mobile = new MobileApp();
+        IObserver web = new WebApp();
+
+        stockMarket.RegisterObserver(mobile);
+        stockMarket.RegisterObserver(web);
+
+        stockMarket.SetStockPrice("TCS", 3950.75);
+        stockMarket.SetStockPrice("INFY", 1475.50);
+    }
+}

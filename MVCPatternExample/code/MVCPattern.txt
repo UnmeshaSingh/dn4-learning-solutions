@@ -1,0 +1,72 @@
+using System;
+
+public class Student
+{
+    public string Name { get; set; }
+    public int Id { get; set; }
+    public string Grade { get; set; }
+}
+
+public class StudentView
+{
+    public void DisplayStudentDetails(Student student)
+    {
+        Console.WriteLine("Student Details:");
+        Console.WriteLine($"ID: {student.Id}");
+        Console.WriteLine($"Name: {student.Name}");
+        Console.WriteLine($"Grade: {student.Grade}");
+    }
+}
+
+public class StudentController
+{
+    private Student _model;
+    private StudentView _view;
+
+    public StudentController(Student model, StudentView view)
+    {
+        _model = model;
+        _view = view;
+    }
+
+    public void SetStudentName(string name)
+    {
+        _model.Name = name;
+    }
+
+    public void SetStudentGrade(string grade)
+    {
+        _model.Grade = grade;
+    }
+
+    public void UpdateView()
+    {
+        _view.DisplayStudentDetails(_model);
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Student student = new Student
+        {
+            Id = 1,
+            Name = "Alice",
+            Grade = "A"
+        };
+
+        StudentView view = new StudentView();
+
+        StudentController controller = new StudentController(student, view);
+
+        controller.UpdateView();
+
+        Console.WriteLine("\n--- Updating Student Data ---\n");
+
+        controller.SetStudentName("Bob");
+        controller.SetStudentGrade("B+");
+
+        controller.UpdateView();
+    }
+}

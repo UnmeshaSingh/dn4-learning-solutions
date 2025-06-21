@@ -1,0 +1,73 @@
+using System;
+
+public class Computer
+{
+    public string CPU { get; }
+    public string RAM { get; }
+    public string Storage { get; }
+
+    private Computer(Builder builder)
+    {
+        CPU = builder.CPU;
+        RAM = builder.RAM;
+        Storage = builder.Storage;
+    }
+
+    public override string ToString()
+    {
+        return $"Computer Specs:\nCPU: {CPU}\nRAM: {RAM}\nStorage: {Storage}";
+    }
+
+    public class Builder
+    {
+        public string CPU;
+        public string RAM;
+        public string Storage;
+
+        public Builder SetCPU(string cpu)
+        {
+            CPU = cpu;
+            return this;
+        }
+
+        public Builder SetRAM(string ram)
+        {
+            RAM = ram;
+            return this;
+        }
+
+        public Builder SetStorage(string storage)
+        {
+            Storage = storage;
+            return this;
+        }
+
+        public Computer Build()
+        {
+            return new Computer(this);
+        }
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Computer gamingPC = new Computer.Builder()
+                                .SetCPU("Intel Core i9")
+                                .SetRAM("32GB")
+                                .SetStorage("2TB SSD")
+                                .Build();
+
+        Console.WriteLine("Gaming PC:\n" + gamingPC);
+
+        Console.WriteLine();
+
+        Computer officePC = new Computer.Builder()
+                                .SetCPU("Intel Core i3")
+                                .SetRAM("8GB")
+                                .Build(); 
+
+        Console.WriteLine("Office PC:\n" + officePC);
+    }
+}
