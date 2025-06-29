@@ -1,0 +1,5 @@
+CalcLibrary.Tests.CalculatorTests.Add_MultipleInputs_ReturnsExpected(1,2,3)
+CalcLibrary.Tests.CalculatorTests.Add_MultipleInputs_ReturnsExpected(-1,1,0)
+CalcLibrary.Tests.CalculatorTests.Add_MultipleInputs_ReturnsExpected(0,0,0)
+CalcLibrary.Tests.CalculatorTests.Add_SimpleValues_ReturnsCorrectResult
+CalcLibrary.Tests.CalculatorTests.Subtract_SampleTest
