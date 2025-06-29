@@ -1,0 +1,56 @@
+using System;
+
+public interface IPaymentProcessor
+{
+    void ProcessPayment(double amount);
+}
+
+public class PayPal
+{
+    public void MakePayment(double amount)
+    {
+        Console.WriteLine($"[PayPal] Paid ₹{amount}");
+    }
+}
+
+public class Stripe
+{
+    public void Charge(double amount)
+    {
+        Console.WriteLine($"[Stripe] Charged ₹{amount}");
+    }
+}
+
+public class PayPalAdapter : IPaymentProcessor
+{
+    private PayPal _paypal = new PayPal();
+
+    public void ProcessPayment(double amount)
+    {
+        _paypal.MakePayment(amount); 
+    }
+}
+
+public class StripeAdapter : IPaymentProcessor
+{
+    private Stripe _stripe = new Stripe();
+
+    public void ProcessPayment(double amount)
+    {
+        _stripe.Charge(amount); 
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        IPaymentProcessor processor;
+
+        processor = new PayPalAdapter();
+        processor.ProcessPayment(1500);
+
+        processor = new StripeAdapter();
+        processor.ProcessPayment(2500);
+    }
+}

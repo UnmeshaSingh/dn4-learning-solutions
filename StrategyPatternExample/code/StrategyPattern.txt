@@ -1,0 +1,56 @@
+using System;
+
+public interface IPaymentStrategy
+{
+    void Pay(double amount);
+}
+
+public class CreditCardPayment : IPaymentStrategy
+{
+    public void Pay(double amount)
+    {
+        Console.WriteLine($"Paid ₹{amount} using Credit Card.");
+    }
+}
+
+public class PayPalPayment : IPaymentStrategy
+{
+    public void Pay(double amount)
+    {
+        Console.WriteLine($"Paid ₹{amount} using PayPal.");
+    }
+}
+
+public class PaymentContext
+{
+    private IPaymentStrategy _strategy;
+
+    public void SetPaymentStrategy(IPaymentStrategy strategy)
+    {
+        _strategy = strategy;
+    }
+
+    public void PayAmount(double amount)
+    {
+        if (_strategy == null)
+        {
+            Console.WriteLine("No payment strategy selected.");
+            return;
+        }
+        _strategy.Pay(amount);
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        PaymentContext context = new PaymentContext();
+
+        context.SetPaymentStrategy(new CreditCardPayment());
+        context.PayAmount(1200.50);
+
+        context.SetPaymentStrategy(new PayPalPayment());
+        context.PayAmount(750.00);
+    }
+}
