@@ -1,0 +1,42 @@
+using System;
+
+public interface ICustomerRepository
+{
+    string FindCustomerById(int id);
+}
+
+public class CustomerRepositoryImpl : ICustomerRepository
+{
+    public string FindCustomerById(int id)
+    {
+        return $"Customer {id}: John Doe";
+    }
+}
+
+public class CustomerService
+{
+    private readonly ICustomerRepository _repository;
+
+    public CustomerService(ICustomerRepository repository)
+    {
+        _repository = repository;
+    }
+
+    public void DisplayCustomer(int id)
+    {
+        string customer = _repository.FindCustomerById(id);
+        Console.WriteLine(customer);
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        ICustomerRepository repository = new CustomerRepositoryImpl();
+
+        CustomerService service = new CustomerService(repository);
+
+        service.DisplayCustomer(101);
+    }
+}

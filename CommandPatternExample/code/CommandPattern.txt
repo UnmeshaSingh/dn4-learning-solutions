@@ -1,0 +1,83 @@
+using System;
+
+public interface ICommand
+{
+    void Execute();
+}
+
+public class Light
+{
+    public void TurnOn()
+    {
+        Console.WriteLine("The light is ON.");
+    }
+
+    public void TurnOff()
+    {
+        Console.WriteLine("The light is OFF.");
+    }
+}
+
+public class LightOnCommand : ICommand
+{
+    private Light _light;
+
+    public LightOnCommand(Light light)
+    {
+        _light = light;
+    }
+
+    public void Execute()
+    {
+        _light.TurnOn();
+    }
+}
+
+public class LightOffCommand : ICommand
+{
+    private Light _light;
+
+    public LightOffCommand(Light light)
+    {
+        _light = light;
+    }
+
+    public void Execute()
+    {
+        _light.TurnOff();
+    }
+}
+
+public class RemoteControl
+{
+    private ICommand _command;
+
+    public void SetCommand(ICommand command)
+    {
+        _command = command;
+    }
+
+    public void PressButton()
+    {
+        _command.Execute();
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Light light = new Light();
+
+        ICommand lightsOn = new LightOnCommand(light);
+        ICommand lightsOff = new LightOffCommand(light);
+
+        RemoteControl remote = new RemoteControl();
+
+        remote.SetCommand(lightsOn);
+        remote.PressButton();  
+
+        remote.SetCommand(lightsOff);
+        remote.PressButton();  
+    }
+}
