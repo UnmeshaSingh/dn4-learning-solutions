@@ -1,10 +1,16 @@
+# Ignore Visual Studio temporary files
 .vs/
+*.user
+*.suo
+*.sdf
+
+# Ignore build output
 bin/
 obj/
-*.suo
-*.user
-*.dbmdl
-*.vscode/
 *.exe
 *.dll
+
+# Ignore other temporary files
+*.log
+*.cache
 *.pdb
