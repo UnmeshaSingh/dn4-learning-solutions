@@ -1,11 +1,12 @@
 import React from 'react';
-import CricketApp from './Components/CricketApp';
+import { CohortData } from './Cohort';
+import CohortDetails from './CohortDetails';
 
 function App() {
   return (
     <div className="App">
-      <h1>Cricket Stats Dashboard</h1>
-      <CricketApp />
+      <h1>Cohort Dashboard</h1>
+      <CohortDetails cohort={CohortData[0]} />
     </div>
   );
 }

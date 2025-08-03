@@ -1,22 +1,13 @@
 import React from 'react';
-import styles from '../CohortDetails.module.css';
 
-function CohortDetails({ name, stream, startDate, endDate, status }) {
+const CohortDetails = ({ cohort }) => {
   return (
-    <div className={styles.box}>
-      <h3 className={status.toLowerCase() === "ongoing" ? styles.green : styles.blue}>
-        {name} ({status})
-      </h3>
-      <dl>
-        <dt>Stream:</dt>
-        <dd>{stream}</dd>
-        <dt>Start Date:</dt>
-        <dd>{startDate}</dd>
-        <dt>End Date:</dt>
-        <dd>{endDate}</dd>
-      </dl>
+    <div>
+      <h3>{cohort.code}</h3>
+      <p>Topic: {cohort.topic}</p>
+      <p>Status: {cohort.status}</p>
     </div>
   );
-}
+};
 
 export default CohortDetails;
