@@ -1,0 +1,184 @@
+GIT RUN SHEET 0. PREREQS (run once)
+   COMMANDS:
+   git --version
+   git config --global user.name "Unmesha"
+   git config --global user.email "[singhunmesha@gmail.com](mailto:singhunmesha@gmail.com)"
+   git config --global color.ui auto
+   git config --global init.defaultBranch master
+   git config --global core.editor notepad
+   git config --list
+
+SOLUTION:
+
+* You should see your name/email in the config list.
+* If “git: command not found”, install Git for Windows and retry.
+
+1.  START LOCALLY AND PUSH TO YOUR REMOTE
+
+COMMANDS:
+mkdir dn4-learning-solutions
+cd dn4-learning-solutions
+git init
+echo "# dn4-learning-solutions" > README.md
+git add README.md
+git commit -m "initial commit: add README"
+git remote add origin [https://github.com/UnmeshaSingh/dn4-learning-solutions.git](https://github.com/UnmeshaSingh/dn4-learning-solutions.git)
+git branch -M master
+git push -u origin master
+
+SOLUTION:
+
+* If asked for credentials, use your GitHub login or PAT.
+* If you see “repository not found,” double-check the URL and your access.
+* If GitHub repo wasn’t empty and push is rejected:
+  Run:
+  git pull --rebase origin master
+
+  # resolve any conflicts if prompted
+
+  git push -u origin master
+
+(Add files as you go:)
+COMMANDS:
+
+# edit files in Notepad as needed
+
+git add .
+git commit -m "feat: add initial code"
+git push
+
+SOLUTION:
+
+* Your changes appear on GitHub after push.
+
+
+2. .GITIGNORE (SKIP JUNK LIKE LOGS)
+   COMMANDS:
+   echo "\*.log" > .gitignore
+   echo "logs/" >> .gitignore
+   mkdir -p logs
+   echo "debug" > app.log
+   echo "err" > logs/error.txt
+   git status
+   git add .gitignore
+   git commit -m "chore: add .gitignore for logs"
+   git push
+
+SOLUTION:
+
+* `git status` should **not** list app.log or files in logs/.
+* If already tracked, untrack once:
+  git rm -r --cached app.log logs
+  git commit -m "chore: stop tracking logs"
+  git push
+
+---
+
+3. FEATURE BRANCH WORKFLOW
+   COMMANDS:
+   git checkout -b feature/setup
+   echo "Project bootstrap" >> README.md
+   git add README.md
+   git commit -m "feat: project bootstrap notes"
+   git checkout master
+   git pull --rebase origin master
+   git merge --no-ff feature/setup -m "merge feature/setup"
+   git push
+   git branch -d feature/setup
+
+SOLUTION:
+
+* Keeps master updated, merges your feature, deletes local branch.
+
+---
+
+4. PRACTICE A MERGE CONFLICT (LEARN RESOLUTION)
+   COMMANDS:
+   git checkout -b practice/conflict
+   echo "<greet>Hi from branch</greet>" > hello.xml
+   git add hello.xml
+   git commit -m "add hello.xml on branch"
+
+git checkout master
+echo "<greet>Hi from master</greet>" > hello.xml
+git add hello.xml
+git commit -m "add conflicting hello.xml on master"
+
+git merge practice/conflict
+
+# OPEN hello.xml in Notepad, remove conflict markers and keep ONE final line, e.g.:
+
+# <greet>Hi from master + branch</greet>
+
+git add hello.xml
+git commit -m "resolve merge conflict in hello.xml"
+echo "\*.orig" >> .gitignore
+git add .gitignore
+git commit -m "chore: ignore merge backups"
+git push
+
+SOLUTION:
+
+* On `git merge`, you’ll see conflict markers: <<<<<<<, =======, >>>>>>>.
+* After fixing and `git add`, the commit completes the merge.
+
+---
+
+5. DAILY SYNC (KEEP YOUR FORK CLEAN)
+   COMMANDS:
+   git status
+   git pull --rebase origin master
+
+# fix conflicts if any: edit -> git add <file> -> git rebase --continue
+
+git push
+
+SOLUTION:
+
+* `--rebase` keeps history linear. To bail out: `git rebase --abort`.
+
+
+6. COMMON UNDO QUICKIES
+   Unstage file:
+   COMMANDS:
+   git reset HEAD -- README.md
+   SOLUTION:
+
+* README.md moves back to “modified but unstaged”.
+
+Discard local changes (WARNING—loses edits):
+COMMANDS:
+git checkout -- README.md
+SOLUTION:
+
+* Restores last committed version.
+
+Amend last commit message:
+COMMANDS:
+git commit --amend -m "better message"
+git push -f
+SOLUTION:
+
+* Use `-f` only if the old commit was already pushed.
+
+Stop tracking a file but keep it:
+COMMANDS:
+git rm --cached app.log
+git commit -m "chore: stop tracking app.log"
+git push
+SOLUTION:
+
+* Add it to `.gitignore` so it stays untracked.
+
+7. QUICK STATUS/HISTORY CHECKS
+   COMMANDS:
+   git status
+   git log --oneline --graph --decorate --all
+   git branch -a
+   git remote -v
+   git config --global -e
+
+SOLUTION:
+
+* Fast way to inspect repo state, branches, remotes, and config.
+

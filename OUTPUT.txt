@@ -1,0 +1,215 @@
+OUTPUT
+
+0) PREREQS
+```bash
+git --version
+```
+
+Output:
+
+```
+git version 2.47.0.windows.1
+```
+
+```bash
+git config --global user.name "Unmesha"
+git config --global user.email "singhunmesha@gmail.com"
+git config --global color.ui auto
+git config --global init.defaultBranch master
+git config --global core.editor notepad
+git config --list
+```
+
+Output:
+
+```
+user.name=Unmesha
+user.email=singhunmesha@gmail.com
+color.ui=auto
+init.defaultbranch=master
+core.editor=notepad
+```
+
+1) NEW LOCAL REPO + FIRST COMMIT
+
+```bash
+mkdir dn4-learning-solutions
+cd dn4-learning-solutions
+git init
+```
+
+Output:
+
+```
+Initialized empty Git repository in C:/Users/<YourName>/dn4-learning-solutions/.git/
+```
+
+```bash
+echo "# dn4-learning-solutions" > README.md
+git status
+```
+
+Output:
+
+```
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        README.md
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+```bash
+git add README.md
+git commit -m "initial commit: add README"
+```
+
+Output:
+
+```
+[master (root-commit) 1a2b3c4] initial commit: add README
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README.md
+```
+
+```bash
+git log --oneline --graph --decorate --all
+```
+
+Output:
+
+```
+ 1a2b3c4 (HEAD -> master) initial commit: add README
+```
+
+---
+
+2) CONNECT REMOTE + PUSH
+
+```bash
+git remote add origin https://github.com/UnmeshaSingh/dn4-learning-solutions.git
+git branch -M master
+git push -u origin master
+```
+
+First push output :
+
+```
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 276 bytes | 276.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To https://github.com/UnmeshaSingh/dn4-learning-solutions.git
+ * [new branch]      master -> master
+branch 'master' set up to track 'origin/master'.
+```
+
+3) ADD .GITIGNORE
+
+```bash
+echo "*.log" > .gitignore
+echo "logs/" >> .gitignore
+mkdir logs
+echo "debug" > app.log
+echo "err" > logs/error.txt
+git status
+```
+
+Expected:
+
+```
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitignore
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+(`app.log` and `logs/error.txt` should NOT appear — they’re ignored.)
+
+---
+
+4) FEATURE BRANCH MERGE
+
+```bash
+git checkout -b feature/setup
+```
+
+Output:
+
+```
+Switched to a new branch 'feature/setup'
+```
+
+After commit + merge:
+
+```bash
+git merge --no-ff feature/setup -m "merge feature/setup"
+```
+
+Output:
+
+```
+Merge made by the 'recursive' strategy.
+ README.md | 1 +
+ 1 file changed, 1 insertion(+)
+```
+
+5) MERGE CONFLICT
+
+When you run:
+
+```bash
+git merge practice/conflict
+```
+
+You’ll see:
+
+```
+Auto-merging hello.xml
+CONFLICT (content): Merge conflict in hello.xml
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+Opening `hello.xml` will show:
+
+```
+<<<<<<< HEAD
+<greet>Hi from master</greet>
+=======
+<greet>Hi from branch</greet>
+>>>>>>> practice/conflict
+```
+
+After editing + `git add hello.xml` + commit, output is:
+
+```
+[master 9f8e7d6] resolve merge conflict in hello.xml
+```
+
+
+6) DAILY SYNC
+
+```bash
+git pull --rebase origin master
+```
+
+If no changes:
+
+```
+Current branch master is up to date.
+```
+
+If updates found:
+
+```
+Successfully rebased and updated refs/heads/master.
+```
+
